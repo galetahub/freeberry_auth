@@ -1,0 +1,19 @@
+= FreeberryAuth
+
+== Install
+
+  gem 'freeberry_auth'
+
+  rails g freeberry_auth:install
+
+== Example
+
+  <%= loginza_button_tag("Vote", auth_accounts_path, :class => "loginza") %>
+  
+== Controller helpers
+
+  current_account # nil or FreeberryAuth::Account
+  account_signed_in? # true or false
+
+
+Copyright (c) 2010 Brainberry, released under the MIT license

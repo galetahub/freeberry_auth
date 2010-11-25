@@ -1,0 +1,3 @@
+== FreeberryAuth
+
+  rails generate freeberry_auth:install
