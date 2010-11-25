@@ -13,7 +13,7 @@ Generate migration:
 
 == Example
 
-  <%= loginza_button_tag("Vote", auth_accounts_path, :class => "loginza") %>
+  <%= loginza_button_tag("Vote", auth_accounts_url, :class => "loginza") %>
   
 == Controller helpers
 
@@ -25,10 +25,15 @@ You must describe helper method "extract_path_proc".
 This method must return path to redirect with, after success authorization. 
 By default it return '/'.
 
+  <%= loginza_button_tag("Vote", auth_accounts_url(:kind => 'post', :id => @post.id), :class => "loginza") %>
+
   FreeberryAuth.extract_path_proc = Proc.new do |params|
-    case params[:kind]
-      when 'Post' then post_path(:id => params[:id])
-      when 'Article' then article_path(:id => params[:id])
+    klass = (params[:kind] || '').to_s.downcase.strip
+    record_id = (params[:id] || 0).to_i
+    
+    case klass
+      when 'post' then "/posts/#{record_id}"
+      else '/'
     end
   end
 
