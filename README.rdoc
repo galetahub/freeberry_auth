@@ -17,8 +17,9 @@ Generate migration:
   
 == Controller helpers
 
-  current_account # nil or FreeberryAuth::Account
-  account_signed_in? # true or false
+  current_account    # return nil or FreeberryAuth::Account object
+  
+  account_signed_in? # return true or false
 
 You must describe helper method "extract_path_proc". 
 This method must return path to redirect with, after success authorization. 
@@ -29,6 +30,22 @@ By default it return '/'.
       when 'Post' then post_path(:id => params[:id])
       when 'Article' then article_path(:id => params[:id])
     end
+  end
+
+In application controller you can write, if you already have "current_user" method:
+
+  class ApplicationController < ActionController::Base
+    helper_method :current_client, :client_signed_in?
+    
+    protected
+    
+      def current_client
+        current_user || current_account
+      end
+      
+      def client_signed_in?
+        user_signed_in? || account_signed_in?
+      end
   end
 
 Copyright (c) 2010 Brainberry, released under the MIT license
