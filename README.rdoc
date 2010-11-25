@@ -9,6 +9,7 @@ In Gemfile:
 Generate migration:
 
   rails g freeberry_auth:install
+  rake db:migrate
 
 == Example
 
@@ -19,12 +20,15 @@ Generate migration:
   current_account # nil or FreeberryAuth::Account
   account_signed_in? # true or false
 
-You must describe helper method @freeberry_auth_extract_path@ in any helper. 
-This method must return path to redirect with, after success authorization.
+You must describe helper method "extract_path_proc". 
+This method must return path to redirect with, after success authorization. 
+By default it return '/'.
 
-
-  def freeberry_auth_extract_path(params)
-    root_path
+  FreeberryAuth.extract_path_proc = Proc.new do |params|
+    case params[:kind]
+      when 'Post' then post_path(:id => params[:id])
+      when 'Article' then article_path(:id => params[:id])
+    end
   end
 
 Copyright (c) 2010 Brainberry, released under the MIT license

@@ -1,12 +1,11 @@
 # encoding: utf-8
 module FreeberryAuth
-  class AccountsController < ActionController::Metal
+  class AccountsController < ::ActionController::Metal
   
     # POST /auth/accounts
     def create
       if data = ::Loginza.user_data(params[:token])
-        set_current_account(FreeberryAuth::Account.find_or_create(data))
-        redirect_to freeberry_auth_extract_path(params)
+        render_account(data)
       else
         render_unauthorized
       end
@@ -16,9 +15,7 @@ module FreeberryAuth
     def vkontakte
       if ::Vkontakte.authorized?(request.cookie_jar) && params[:account]
         options = { :provider_name => 'Vkontakte' }.merge(params[:account])
-        
-        set_current_account(FreeberryAuth::Account.find_or_create(options))
-        redirect_to freeberry_auth_extract_path(params)
+        render_account(options)
       else
         render_unauthorized
       end
@@ -28,6 +25,17 @@ module FreeberryAuth
   
       def set_current_account(new_account)
         session[:account_id] = new_account ? new_account.id : nil
+      end
+      
+      def render_account(options = {})
+        account = FreeberryAuth::Account.find_or_create(options)
+        
+        if account && account.persisted?
+          set_current_account(account)
+          request.flash[:alert] = I18n.t(:success, :scope => [:flash, :accounts, :create])
+        end
+        
+        redirect_to FreeberryAuth.extract_path_proc.call(params)
       end
       
       def render_unauthorized
