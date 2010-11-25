@@ -6,7 +6,7 @@ module FreeberryAuth
     def create
       if data = ::Loginza.user_data(params[:token])
         set_current_account(FreeberryAuth::Account.find_or_create(data))
-        redirect_to extract_path(params)
+        redirect_to freeberry_auth_extract_path(params)
       else
         render_unauthorized
       end
@@ -18,7 +18,7 @@ module FreeberryAuth
         options = { :provider_name => 'Vkontakte' }.merge(params[:account])
         
         set_current_account(FreeberryAuth::Account.find_or_create(options))
-        redirect_to extract_path(params)
+        redirect_to freeberry_auth_extract_path(params)
       else
         render_unauthorized
       end

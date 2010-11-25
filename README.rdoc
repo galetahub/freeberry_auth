@@ -2,7 +2,11 @@
 
 == Install
 
-  gem 'freeberry_auth'
+In Gemfile:
+
+  gem 'freeberry_auth', :git => 'git://github.com/galetahub/freeberry_auth.git'
+  
+Generate migration:
 
   rails g freeberry_auth:install
 
@@ -15,5 +19,12 @@
   current_account # nil or FreeberryAuth::Account
   account_signed_in? # true or false
 
+You must describe helper method @freeberry_auth_extract_path@ in any helper. 
+This method must return path to redirect with, after success authorization.
+
+
+  def freeberry_auth_extract_path(params)
+    root_path
+  end
 
 Copyright (c) 2010 Brainberry, released under the MIT license
