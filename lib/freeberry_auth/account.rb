@@ -21,7 +21,14 @@ module FreeberryAuth
     end
     
     def name=(value)
-      str = value.is_a?(Hash) && value.has_key?('full_name') ? value['full_name'] : value
+      str = nil
+      
+      if value.is_a?(Hash)
+        value.symbolize_keys!
+        str = value[:full_name] if value.has_key?(:full_name)
+      end
+      
+      str ||= value
       write_attribute(:name, str)
     end
     
