@@ -6,6 +6,7 @@ module FreeberryAuth
       base.send(:include, InstanceMethods)
       
       base.helper_method :current_account, :account_signed_in?
+      base.helper_method :current_client, :client_signed_in?
     end
     
     module ClassMethods
@@ -13,7 +14,8 @@ module FreeberryAuth
 
     module InstanceMethods
       protected
-      
+        
+        # Account
         def account_signed_in?
           !!current_account
         end
@@ -29,6 +31,15 @@ module FreeberryAuth
         
         def account_login_from_session
           self.current_account = FreeberryAuth::Account.find_by_id(session[:account_id]) if session[:account_id]
+        end
+
+        # Client
+        def current_client
+          current_user || current_account
+        end
+
+        def client_signed_in?
+          user_signed_in? || account_signed_in?
         end
     end
   end
