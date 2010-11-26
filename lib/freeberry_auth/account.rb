@@ -29,6 +29,14 @@ module FreeberryAuth
       self.birthday = value
     end
     
+    def without_email?
+      self.email.blank?
+    end
+    
+    def has_photo?
+      !self.photo.blank?
+    end
+    
     def self.find_or_create(attributes)
       attributes.symbolize_keys!
       
