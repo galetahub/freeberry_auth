@@ -37,20 +37,4 @@ By default it return '/'.
     end
   end
 
-In application controller you can write, if you already have "current_user" method:
-
-  class ApplicationController < ActionController::Base
-    helper_method :current_client, :client_signed_in?
-    
-    protected
-    
-      def current_client
-        current_user || current_account
-      end
-      
-      def client_signed_in?
-        user_signed_in? || account_signed_in?
-      end
-  end
-
 Copyright (c) 2010 Brainberry, released under the MIT license
