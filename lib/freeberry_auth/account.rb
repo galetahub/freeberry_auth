@@ -4,7 +4,7 @@ module FreeberryAuth
     validates_presence_of :identifier, :provider_name
   
     attr_accessible :name, :username, :photo, :identity, :identifier, :email, 
-                    :provider, :provider_name, :address, :uid, :language, :gender
+                    :provider, :provider_name, :address, :uid, :language, :gender, :dob, :nickname
     
     before_validation :make_defaults
     
@@ -26,6 +26,7 @@ module FreeberryAuth
       if value.is_a?(Hash)
         value.symbolize_keys!
         str = value[:full_name] if value.has_key?(:full_name)
+        str ||= [value[:first_name], value[:last_name]].join(' ') if value[:first_name] || value[:last_name]
       end
       
       str ||= value
