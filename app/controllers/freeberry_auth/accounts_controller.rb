@@ -28,6 +28,7 @@ module FreeberryAuth
       end
       
       def render_account(options = {})
+        FreeberryAuth.log(options.inspect)
         account = FreeberryAuth::Account.find_or_create(options)
         
         if account && account.persisted?

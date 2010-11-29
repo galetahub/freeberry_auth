@@ -11,6 +11,21 @@ Generate migration:
   rails g freeberry_auth:install
   rake db:migrate
 
+== Logger
+
+Use rails default logger:
+
+  FreeberryAuth.logger = Rails.logger
+  
+or
+
+  require 'logger'
+  
+  logfile = File.open(Rails.root.join('log', 'freeberry_auth.log'), 'w')
+  logfile.sync = true
+
+  FreeberryAuth.logger = Logger.new(logfile)
+
 == Example
 
   <%= loginza_button_tag("Vote", auth_accounts_url, :class => "loginza") %>
@@ -20,6 +35,10 @@ Generate migration:
   current_account    # return nil or FreeberryAuth::Account object
   
   account_signed_in? # return true or false
+  
+  current_client     # return current_user or current_account
+  
+  client_signed_in?  # check user_signed_in? or account_signed_in?
 
 You must describe helper method "extract_path_proc". 
 This method must return path to redirect with, after success authorization. 
