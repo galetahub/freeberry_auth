@@ -20,6 +20,14 @@ module FreeberryAuth
         render_unauthorized
       end
     end
+
+    # GET /auth/logout
+    def logout
+      if account_signed_in?
+        current_account = nil
+      end
+      redirect_to :back
+    end
   
     protected
   
