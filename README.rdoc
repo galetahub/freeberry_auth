@@ -28,8 +28,18 @@ or
 
 == Example
 
-  <%= loginza_button_tag("Vote", auth_accounts_url, :class => "loginza") %>
-  
+Login via loginza
+
+  <%= loginza_button_tag("Login", auth_provider_url('loginza'), :class => "loginza") %>
+
+Login via vkontakte
+
+  <%= link_to 'Login', auth_provider_url('vkontakte') %>
+
+Logout
+
+  <%= link_to "Exit", "/auth/logout" if account_signed_in? %>  
+
 == Controller helpers
 
   current_account    # return nil or FreeberryAuth::Account object
@@ -56,4 +66,16 @@ By default it return '/'.
     end
   end
 
-Copyright (c) 2010 Brainberry, released under the MIT license
+== I18n
+
+  en:
+    flash:
+      freeberry_auth:
+        accounts:
+          create:
+            success: "Signed in successfully."
+            failure: "You need to sign in or sign up before continuing."
+          destroy:
+            success: "Signed out successfully."
+
+Copyright (c) 2011 Aimbulance, released under the MIT license

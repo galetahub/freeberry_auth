@@ -1,0 +1,9 @@
+en:
+  flash:
+    freeberry_auth:
+      accounts:
+        create:
+          success: "Signed in successfully."
+          failure: "You need to sign in or sign up before continuing."
+        destroy:
+          success: "Signed out successfully."
