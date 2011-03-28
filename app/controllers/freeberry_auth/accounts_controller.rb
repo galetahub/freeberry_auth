@@ -13,7 +13,6 @@ module FreeberryAuth
     
     # GET /auth/logout
     def destroy
-      current_account = nil
       session.delete(:account_id)
       request.flash[:alert] = I18n.t('destroy.success', :scope => i18n_scope)
       redirect_to "/"
@@ -21,7 +20,7 @@ module FreeberryAuth
   
     protected
   
-      def current_account=(new_account)
+      def set_current_account(new_account)
         session[:account_id] = new_account ? new_account.id : nil
       end
       
@@ -30,7 +29,7 @@ module FreeberryAuth
         account = FreeberryAuth::Account.find_or_create(options)
         
         if account && account.persisted?
-          current_account = account
+          set_current_account(account)
           request.flash[:alert] = I18n.t('create.success', :scope => i18n_scope)
         end
         
